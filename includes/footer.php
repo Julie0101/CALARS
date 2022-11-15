@@ -1,6 +1,10 @@
 <?php
 if (isset($_POST['emailsubscibe'])) {
-  $subscriberemail = $_POST['subscriberemail'];
+
+  $subscriberemail =$_SESSION['login'];
+
+  //$subscriberemail = $_POST['subscriberemail'];
+
   $sql = "SELECT SubscriberEmail FROM tblsubscribers WHERE SubscriberEmail=:subscriberemail";
   $query = $dbh->prepare($sql);
   $query->bindParam(':subscriberemail', $subscriberemail, PDO::PARAM_STR);
@@ -46,9 +50,17 @@ if (isset($_POST['emailsubscibe'])) {
           <div class="newsletter-form">
             <form method="post">
               <div class="form-group">
-                <input type="email" name="subscriberemail" class="form-control newsletter-input" required placeholder="Enter Email Address" />
+                <input type="hidden" name="subscriberemail" class="form-control newsletter-input" required placeholder="Enter Email Address" />
               </div>
+              
+              <?php if ($_SESSION['login']) { ?>
+
               <button type="submit" name="emailsubscibe" class="btn btn-block">Subscribe <span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
+               
+               <?php } else { ?>
+                <a href="#loginform" class="btn btn-block" data-toggle="modal" data-dismiss="modal">Login To Subscribe</a>
+               <?php } ?>
+
             </form>
             <p class="subscribed-text">We send great news to our subscribed users very week.</p>
           </div>
