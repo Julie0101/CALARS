@@ -26,7 +26,6 @@ if (isset($_POST['signup'])) {
 
 ?>
 
-
 <script>
   function checkAvailability() {
     $("#loaderIcon").show();
@@ -98,7 +97,6 @@ if (isset($_POST['signup'])) {
                 </div>
               </form>
             </div>
-
           </div>
         </div>
       </div>
