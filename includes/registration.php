@@ -66,8 +66,7 @@ if (isset($_POST['signup'])) {
         <div class="row">
           <div class="signup_wrap">
             <div class="col-md-12 col-sm-6">
-              <!--<form method="post" name="signup" onSubmit="return valid();">-->
-              <form method="post" name="signup">
+              <form method="post" name="signup" onSubmit="return valid();">
                 <div class="form-group">
                   <input type="text" class="form-control" name="idnumber" placeholder="National ID Number" maxlength="8" required="required">
                 </div>
