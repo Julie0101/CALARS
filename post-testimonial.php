@@ -8,7 +8,8 @@ if (strlen($_SESSION['login']) == 0) {
   if (isset($_POST['submit'])) {
     $testimonoial = $_POST['testimonial'];
     $email = $_SESSION['login'];
-    $sql = "INSERT INTO  tbltestimonial(UserEmail,Testimonial) VALUES(:email,:testimonoial)";
+    $sql = "INSERT INTO  tbltestimonial(UserEmail,Testimonial) 
+            VALUES(:email,:testimonoial)";
     $query = $dbh->prepare($sql);
     $query->bindParam(':testimonoial', $testimonoial, PDO::PARAM_STR);
     $query->bindParam(':email', $email, PDO::PARAM_STR);

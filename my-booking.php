@@ -135,9 +135,9 @@ if (strlen($_SESSION['login']) == 0) {
                       <ul class="laptop_listing">
                         <?php
                         $useremail = $_SESSION['login'];
-
-                        $sql = "SELECT tbllaptops.Vimage1 as Vimage1,tbllaptops.LaptopTitle,tbllaptops.SerialNumber,tbllaptops.OwnerEmail,tbllaptops.id as vid,
-                                tblusers.FullName,tblusers.ContactNo, tblusers.EmailId, tblbrands.BrandName,
+                        $sql = "SELECT tbllaptops.Vimage1 as Vimage1,tbllaptops.LaptopTitle,tbllaptops.SerialNumber,
+                                tbllaptops.OwnerEmail,tbllaptops.id as vid,tblusers.FullName,tblusers.ContactNo, 
+                                tblusers.EmailId, tblbrands.BrandName,
                                 tblbooking.*  from tblbooking 
                                 join tbllaptops on tblbooking.LaptopId=tbllaptops.id 
                                 join tblbrands on tblbrands.id=tbllaptops.LaptopBrand 

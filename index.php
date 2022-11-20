@@ -117,7 +117,6 @@ error_reporting(0);
                     join tblbrands on tblbrands.id=tbllaptops.LaptopBrand 
                     where tbllaptops.OwnerEmail!=? and tbllaptops.Online = 1;";
             $query = $dbh->prepare($sql);
-            #$query->bindParam(':useremail', $useremail, PDO::PARAM_STR);
             $query->execute([$useremail]);
             $results = $query->fetchAll(PDO::FETCH_OBJ);
             $cnt = 1;
@@ -162,7 +161,9 @@ error_reporting(0);
         <div id="testimonial-slider">
           <?php
           $tid = 1;
-          $sql = "SELECT tbltestimonial.Testimonial,tblusers.FullName from tbltestimonial join tblusers on tbltestimonial.UserEmail=tblusers.EmailId where tbltestimonial.status=:tid";
+          $sql = "SELECT tbltestimonial.Testimonial,tblusers.FullName from tbltestimonial 
+                  join tblusers on tbltestimonial.UserEmail=tblusers.EmailId 
+                  where tbltestimonial.status=:tid";
           $query = $dbh->prepare($sql);
           $query->bindParam(':tid', $tid, PDO::PARAM_STR);
           $query->execute();
