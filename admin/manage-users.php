@@ -150,6 +150,13 @@ if (strlen($_SESSION['alogin']) == 0) {
 									</table>
 
 								</div>
+
+								<div style="text-align: center;margin-bottom: 30px">
+									<button id="print" onclick="printContent('zctb');" class="btn">
+										Print Registered Users <span class="fa fa-print"></span>
+									</button>
+								</div>
+
 							</div>
 
 						</div>
@@ -160,6 +167,17 @@ if (strlen($_SESSION['alogin']) == 0) {
 		</div>
 
 		<!-- Loading Scripts -->
+
+		<script>
+			function printContent(el) {
+				var restorepage = $('body').html();
+				var printcontent = $('#' + el).clone();
+				$('body').empty().html(printcontent);
+				window.print();
+				$('body').html(restorepage);
+			}
+		</script>
+		
 		<script src="js/jquery.min.js"></script>
 		<script src="js/bootstrap-select.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
