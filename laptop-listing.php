@@ -113,7 +113,11 @@ error_reporting(0);
           <div role="tabpanel" class="tab-pane active" id="resentlaptop">
             <?php
             $useremail = $_SESSION['login']; 
-            $sql = "SELECT tbllaptops.LaptopTitle,tbllaptops.OwnerEmail,tblbrands.BrandName,tbllaptops.PricePerDay,tbllaptops.Processor,tbllaptops.Storage,tbllaptops.id,tbllaptops.RAM,tbllaptops.LaptopOverview,tbllaptops.Vimage1 from tbllaptops join tblbrands on tblbrands.id=tbllaptops.LaptopBrand where tbllaptops.OwnerEmail!=? and tbllaptops.Online = 1;";
+            $sql = "SELECT tbllaptops.LaptopTitle,tbllaptops.OwnerEmail,tblbrands.BrandName,
+                    tbllaptops.PricePerDay,tbllaptops.Processor,tbllaptops.Storage,tbllaptops.id,
+                    tbllaptops.RAM,tbllaptops.LaptopOverview,tbllaptops.Vimage1 from tbllaptops 
+                    join tblbrands on tblbrands.id=tbllaptops.LaptopBrand 
+                    where tbllaptops.OwnerEmail!=? and tbllaptops.Online = 1;";
             $query = $dbh->prepare($sql);
             $query->execute([$useremail]);
             $results = $query->fetchAll(PDO::FETCH_OBJ);

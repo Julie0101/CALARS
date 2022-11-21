@@ -13,8 +13,10 @@ if (isset($_POST['submit'])) {
 
   $vhid = $_GET['vhid'];
 
-  $sql = "INSERT INTO  tblbooking(userEmail,LaptopId,FromDate,ToDate,PaymentMode,TotalPrice,PayStatus,Status,ReturnStatus) 
-  VALUES (:useremail,:vhid,:fromdate,:todate,:paymentmode,:totalprice,:paystatus,:status,:returnstatus)";
+  $sql = "INSERT INTO  tblbooking(userEmail,LaptopId,FromDate,ToDate,PaymentMode,TotalPrice,
+          PayStatus,Status,ReturnStatus) 
+          VALUES (:useremail,:vhid,:fromdate,:todate,:paymentmode,:totalprice,
+          :paystatus,:status,:returnstatus)";
   $query = $dbh->prepare($sql);
   $query->bindParam(':useremail', $useremail, PDO::PARAM_STR);
   $query->bindParam(':vhid', $vhid, PDO::PARAM_STR);

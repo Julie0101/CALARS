@@ -98,8 +98,11 @@ error_reporting(0);
              $useremail = $_SESSION['login']; 
              $search = $_POST['search'];
              $sql = "SELECT tbllaptops.*,tblbrands.BrandName from tbllaptops 
-                     join tblbrands on tblbrands.id=tbllaptops.LaptopBrand where tbllaptops.Processor  
-                     like :term or tblbrands.BrandName like :term or tbllaptops.RAM like :term or tbllaptops.Storage like :term or tbllaptops.LaptopTitle like :term and tbllaptops.Online = 1;";
+                     join tblbrands on tblbrands.id=tbllaptops.LaptopBrand 
+                     where tbllaptops.Processor like :term 
+                     or tblbrands.BrandName like :term 
+                     or tbllaptops.RAM like :term or tbllaptops.Storage like :term 
+                     or tbllaptops.LaptopTitle like :term and tbllaptops.Online = 1;";
              $query = $dbh->prepare($sql);
              $query->execute(array(':term' => '%'.$search.'%')); //using named parameter
              $results = $query->fetchAll(PDO::FETCH_OBJ);

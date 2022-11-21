@@ -46,7 +46,8 @@ if (strlen($_SESSION['login']) == 0) {
     $pid = intval($_GET['pid']);
     $status = 1;
     $returnstatus = 2;
-    $sql = "UPDATE tblbooking SET PayStatus=:status, ReturnStatus=:returnstatus WHERE  id=:pid";
+    $sql = "UPDATE tblbooking SET PayStatus=:status, ReturnStatus=:returnstatus 
+            WHERE  id=:pid";
     $query = $dbh->prepare($sql);
     $query->bindParam(':status', $status, PDO::PARAM_STR);
     $query->bindParam(':returnstatus', $returnstatus, PDO::PARAM_STR);
