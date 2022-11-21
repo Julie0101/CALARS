@@ -62,7 +62,7 @@ if (isset($_POST['emailsubscibe'])) {
                <?php } ?>
 
             </form>
-            <p class="subscribed-text">We send great news to our subscribed users very week.</p>
+            <p class="subscribed-text">We send great news to our subscribed users every week.</p>
           </div>
         </div>
       </div>

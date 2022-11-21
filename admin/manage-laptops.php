@@ -5,9 +5,9 @@ include('includes/config.php');
 if (strlen($_SESSION['alogin']) == 0) {
 	header('location:index.php');
 } else {
-   
+
 	#Delete laptop record.
-	
+
 	if (isset($_REQUEST['del'])) {
 		$delid = intval($_GET['del']);
 		$sql = "delete from tbllaptops  WHERE  id=:delid";
@@ -148,6 +148,13 @@ if (strlen($_SESSION['alogin']) == 0) {
 									</table>
 
 								</div>
+
+								<div style="text-align: center;margin-bottom: 30px">
+									<button id="print" onclick="printContent('zctb');" class="btn">
+										Print Registered Laptops <span class="fa fa-print"></span>
+									</button>
+								</div>
+
 							</div>
 
 						</div>
@@ -156,6 +163,17 @@ if (strlen($_SESSION['alogin']) == 0) {
 				</div>
 			</div>
 		</div>
+
+
+		<script>
+			function printContent(el) {
+				var restorepage = $('body').html();
+				var printcontent = $('#' + el).clone();
+				$('body').empty().html(printcontent);
+				window.print();
+				$('body').html(restorepage);
+			}
+		</script>
 
 		<!-- Loading Scripts -->
 		<script src="js/jquery.min.js"></script>
