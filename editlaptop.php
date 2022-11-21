@@ -22,8 +22,9 @@ if (strlen($_SESSION['login']) == 0) {
 		$id = intval($_GET['id']);
 
 		$sql = "update tbllaptops 
-		set SerialNumber=:serialnumber,OwnerEmail=:emailid,LaptopTitle=:laptoptitle,LaptopBrand=:brandname,
-		LaptopOverview=:laptopoverview,PricePerDay=:priceperday,Processor=:processor,Storage=:storage,RAM=:ram,
+		set SerialNumber=:serialnumber,OwnerEmail=:emailid,LaptopTitle=:laptoptitle,
+		LaptopBrand=:brandname,LaptopOverview=:laptopoverview,PricePerDay=:priceperday,
+		Processor=:processor,Storage=:storage,RAM=:ram,
 		Charger=:charger,Bag=:bag,Mouse=:mouse 
 		where id=:id ";
 
