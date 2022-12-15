@@ -93,45 +93,44 @@ error_reporting(0);
         <div class="tab-content">
           <div role="tabpanel" class="tab-pane active" id="resentlaptop">
             <?php
- 
-             if (isset($_POST['submit-search']) or ($_GET['search'])){
-             $useremail = $_SESSION['login']; 
-             $search = $_POST['search'];
-             $sql = "SELECT tbllaptops.*,tblbrands.BrandName from tbllaptops 
+
+            if (isset($_POST['submit-search']) or ($_GET['search'])) {
+              $useremail = $_SESSION['login'];
+              $search = $_POST['search'];
+              $sql = "SELECT tbllaptops.*,tblbrands.BrandName from tbllaptops 
                      join tblbrands on tblbrands.id=tbllaptops.LaptopBrand 
                      where tbllaptops.Processor like :term 
                      or tblbrands.BrandName like :term 
                      or tbllaptops.RAM like :term or tbllaptops.Storage like :term 
-                     or tbllaptops.LaptopTitle like :term and tbllaptops.Online = 1;";
-             $query = $dbh->prepare($sql);
-             $query->execute(array(':term' => '%'.$search.'%')); //using named parameter
-             $results = $query->fetchAll(PDO::FETCH_OBJ);
-             $cnt = 1;
-             if ($query->rowCount() > 0) {
-              foreach ($results as $result) {
-            ?>
-                <div class="col-list-3">
-                  <div class="recent-laptop-list">
-                    <div class="laptop-info-box"> <a href="laptop-details.php?vhid=<?php echo htmlentities($result->id); ?>">
-                        <img src="admin/img/laptopimages/<?php echo htmlentities($result->Vimage1); ?>" class="img-responsive" alt="image"></a>
-                      <ul>
-                        <li><i class="bi bi-cpu" aria-hidden="true"></i><?php echo htmlentities($result->Processor); ?></li>
-                        <li><i class="fa fa-hdd-o" aria-hidden="true"></i><?php echo htmlentities($result->Storage); ?></li>
-                        <li><i class="bi bi-memory" aria-hidden="true"></i><?php echo htmlentities($result->RAM); ?></li>
-                      </ul>
-                    </div>
-                    <div class="laptop-title-m">
-                      <h6><a href="laptop-details.php?vhid=<?php echo htmlentities($result->id); ?>"><?php echo htmlentities($result->BrandName); ?> , <?php echo htmlentities($result->LaptopTitle); ?></a></h6>
-                      <span class="price">Ksh.<?php echo htmlentities($result->PricePerDay); ?> /Day</span>
-                    </div>
-                    <div class="inventory_info_m">
-                      <p><?php echo substr($result->LaptopOverview, 0, 70); ?></p>
+                     or tbllaptops.LaptopTitle like :term and tbllaptops.Online = 1";
+              $query = $dbh->prepare($sql);
+              $query->execute(array(':term' => '%' . $search . '%')); //using named parameter
+              $results = $query->fetchAll(PDO::FETCH_OBJ);
+              $cnt = 1;
+              if ($query->rowCount() > 0) {
+                foreach ($results as $result) {?>
+                  <div class="col-list-3">
+                    <div class="recent-laptop-list">
+                      <div class="laptop-info-box"> <a href="laptop-details.php?vhid=<?php echo htmlentities($result->id); ?>">
+                          <img src="admin/img/laptopimages/<?php echo htmlentities($result->Vimage1); ?>" class="img-responsive" alt="image"></a>
+                        <ul>
+                          <li><i class="bi bi-cpu" aria-hidden="true"></i><?php echo htmlentities($result->Processor); ?></li>
+                          <li><i class="fa fa-hdd-o" aria-hidden="true"></i><?php echo htmlentities($result->Storage); ?></li>
+                          <li><i class="bi bi-memory" aria-hidden="true"></i><?php echo htmlentities($result->RAM); ?></li>
+                        </ul>
+                      </div>
+                      <div class="laptop-title-m">
+                        <h6><a href="laptop-details.php?vhid=<?php echo htmlentities($result->id); ?>"><?php echo htmlentities($result->BrandName); ?> , <?php echo htmlentities($result->LaptopTitle); ?></a></h6>
+                        <span class="price">Ksh.<?php echo htmlentities($result->PricePerDay); ?> /Day</span>
+                      </div>
+                      <div class="inventory_info_m">
+                        <p><?php echo substr($result->LaptopOverview, 0, 70); ?></p>
+                      </div>
                     </div>
                   </div>
-                </div>
             <?php }
-            } }?>
-            
+              }
+            } ?>
 
           </div>
         </div>

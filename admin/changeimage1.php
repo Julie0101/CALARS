@@ -107,7 +107,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 														foreach ($results as $result) {	?>
 
 															<div class="col-sm-8">
-																<img src="img/laptopimages/<?php echo htmlentities($result->Vimage1); ?>" width="300" height="200" style="border:solid 1px #000">
+																<img src="img/laptopimages/<?php echo htmlentities($result->Vimage1); ?>" width="300" height="300" style="border:solid 1px #ddd">
 															</div>
 													<?php }
 													} ?>

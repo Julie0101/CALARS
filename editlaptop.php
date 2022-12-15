@@ -243,22 +243,22 @@ if (strlen($_SESSION['login']) == 0) {
 
 														<div class="form-group">
 															<div class="col-sm-4">
-																Image 1 <img src="assets/images/laptopimages/<?php echo htmlentities($result->Vimage1); ?>" width="300" height="200" style="border:solid 1px #000">
+																Image 1 <img src="assets/images/laptopimages/<?php echo htmlentities($result->Vimage1); ?>" width="300" height="300" style="border:solid 1px #000">
 																<a href="changeimage1.php?imgid=<?php echo htmlentities($result->id) ?>">Change Image 1</a>
 															</div>
 															<div class="col-sm-4">
-																Image 2<img src="assets/images/laptopimages/<?php echo htmlentities($result->Vimage2); ?>" width="300" height="200" style="border:solid 1px #000">
+																Image 2<img src="assets/images/laptopimages/<?php echo htmlentities($result->Vimage2); ?>" width="300" height="300" style="border:solid 1px #000">
 																<a href="changeimage2.php?imgid=<?php echo htmlentities($result->id) ?>">Change Image 2</a>
 															</div>
 															<div class="col-sm-4">
-																Image 3<img src="assets/images/laptopimages/<?php echo htmlentities($result->Vimage3); ?>" width="300" height="200" style="border:solid 1px #000">
+																Image 3<img src="assets/images/laptopimages/<?php echo htmlentities($result->Vimage3); ?>" width="300" height="300" style="border:solid 1px #000">
 																<a href="changeimage3.php?imgid=<?php echo htmlentities($result->id) ?>">Change Image 3</a>
 															</div>
 														</div>
 
 														<div class="form-group">
 															<div class="col-sm-4">
-																Image 4<img src="assets/images/laptopimages/<?php echo htmlentities($result->Vimage4); ?>" width="300" height="200" style="border:solid 1px #000">
+																Image 4<img src="assets/images/laptopimages/<?php echo htmlentities($result->Vimage4); ?>" width="300" height="300" style="border:solid 1px #000">
 																<a href="changeimage4.php?imgid=<?php echo htmlentities($result->id) ?>">Change Image 4</a>
 															</div>
 														</div>
