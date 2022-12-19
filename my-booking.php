@@ -185,17 +185,17 @@ if (strlen($_SESSION['login']) == 0) {
 
                               </div>
                               <?php if ($result->Status == 1) { ?>
-                                <div class=" laptop_status"> <a href="#" class="btn outline btn-xs active-btn">Owner Confirmed Booking</a>
+                                <div class=" laptop_status"> <a class="btn outline btn-xs active-btn">Owner Confirmed Booking</a>
                                     <div class="clearfix"></div>
                                 </div>
 
                               <?php } else if ($result->Status == 2) { ?>
-                              <div class="laptop_status"> <a href="#" class="btn outline btn-xs inactive-btn">Owner Cancelled Booking</a>
+                              <div class="laptop_status"> <a class="btn outline btn-xs inactive-btn">Owner Cancelled Booking</a>
                                 <div class="clearfix"></div>
                               </div>
                               <?php } else { ?>
 
-                              <div class="laptop_status"> <a href="#" class="btn outline btn-xs">Booking Not Confirmed yet</a>
+                              <div class="laptop_status"> <a class="btn outline btn-xs">Booking Not Confirmed yet</a>
                                 <div class="clearfix"></div>
                               </div>
                               <?php }

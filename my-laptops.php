@@ -53,7 +53,7 @@ if (strlen($_SESSION['login']) == 0) {
     $query->bindParam(':returnstatus', $returnstatus, PDO::PARAM_STR);
     $query->bindParam(':pid', $pid, PDO::PARAM_STR);
     $query->execute();
-    $msg = "Payment Successfully Confirmed";
+    $msg = "Payment Successfully Confirmed. Your laptop was also deactivated. People will no longer be able to book it.";
   }
 
   # Code executes laptop return confirmation by updating ReturnStatus in tblbooking to '4'
@@ -68,16 +68,28 @@ if (strlen($_SESSION['login']) == 0) {
     $msg = "Laptop Return Successfully Confirmed";
   }
 
-  # Update laptop status from offline to online. 
-  if (isset($_REQUEST['rid'])) {
-    $rid = intval($_GET['rid']);
-    $state = 2;
-    $sql = "UPDATE tbllaptops SET Online=:state WHERE  id=:rid";
+  # Update laptop status from online to in use. 
+  if (isset($_REQUEST['lid'])) {
+    $lid = intval($_GET['lid']);
+    $state = 3;
+    $sql = "UPDATE tbllaptops SET Online=:state WHERE  id=:lid";
     $query = $dbh->prepare($sql);
     $query->bindParam(':state', $state, PDO::PARAM_STR);
-    $query->bindParam(':rid', $rid, PDO::PARAM_STR);
+    $query->bindParam(':lid', $lid, PDO::PARAM_STR);
     $query->execute();
   }
+
+  # Update laptop status from in use to online after laptop return is confirmed.
+  if (isset($_REQUEST['ulid'])) {
+    $lid = intval($_GET['ulid']);
+    $state = 1;
+    $sql = "UPDATE tbllaptops SET Online=:state WHERE  id=:ulid";
+    $query = $dbh->prepare($sql);
+    $query->bindParam(':state', $state, PDO::PARAM_STR);
+    $query->bindParam(':ulid', $lid, PDO::PARAM_STR);
+    $query->execute();
+  }
+  
 
 ?>
   <!DOCTYPE html>
@@ -225,16 +237,24 @@ if (strlen($_SESSION['login']) == 0) {
                                   <b>Laptop Status: </b> <?php if ($result->Online==1){echo htmlentities('Active');}else if($result ->Online == 2)echo htmlentities('Inactive');?>
                                 </p>
 
-                                
+                                <!--
+                                  Laptop Status:
+                                  1: Active -> deactivating changes status to value 2
+                                  2: Inactuve -> activating changes status to value 1
+                                  3: In use -> no action ubtill laptop is returned. 
+                                -->
                                 <div class="laptop_status"> 
-                                <?php if ($result->Online==1) { ?>
+                                  <?php if ($result->Online==1) { ?>
 
                                   <a href="deactivate.php?id=<?php echo htmlentities ($result->id); ?>"onclick="return confirm('Do you really want to deactivate this laptop?It will not be visible to users who want to book it.')" class="btn outline btn-xs inactive-btn"style="border-color:#fa2837">Deactivate</a>
                                   
                                   <?php } else if ($result->Online==2) { ?>
 
                                   <a href="activate.php?id=<?php echo htmlentities ($result->id);?>"onclick="return confirm('Do you really want to activate this laptop?Users will be able to book it.')" class="btn outline btn-xs active-btn"style="border-color:#2dcc70">Activate</a>
-                                  <?php } ?>
+                                  <?php } else if ($result->Online==3) {?>
+                                    <a href="" class="btn outline btn-xs inactive-btn"style="border-color:#fa2837">Laptop is in use</a>
+                                  <?php }
+                                  ?>
 
                                  
                                 </div>
@@ -317,7 +337,7 @@ if (strlen($_SESSION['login']) == 0) {
 
 											<?php 
                       $useremail = $_SESSION['login'];
-                      $sql = "SELECT tblusers.FullName,tblusers.Id as uid,tblusers.ContactNo,tblbrands.BrandName,tbllaptops.SerialNumber,tbllaptops.LaptopTitle,
+                      $sql = "SELECT tblusers.FullName,tblusers.Id as uid,tblusers.ContactNo,tblbrands.BrandName,tbllaptops.id as lid, tbllaptops.SerialNumber,tbllaptops.LaptopTitle,
 											        tblbooking.FromDate,tblbooking.ToDate,tblbooking.TotalPrice,tblbooking.PaymentMode,tblbooking.PayStatus,tblbooking.LaptopId as vid,
 													    tblbooking.Status,tblbooking.PostingDate,tblbooking.ReturnStatus,tblbooking.id  from tblbooking
 													    join tbllaptops on tbllaptops.id=tblbooking.LaptopId 
@@ -339,10 +359,11 @@ if (strlen($_SESSION['login']) == 0) {
 														<td><?php echo htmlentities($result->ToDate); ?></td>
                             <td><?php echo htmlentities($result->TotalPrice); ?></td>
 														<td><?php echo htmlentities($result->PaymentMode); ?></td>
-
+                            
                             <td><?php
+                              # Pay status changes form 0 to 1 when payment confirmed. Also confirming payment changes online status to 3
 															if ($result->PayStatus == 0) {?>
-																<a href="my-laptops.php?pid=<?php echo htmlentities($result->id); ?>" onclick="return confirm('Do you really want to Confirm payment for this booking?')"><?php echo htmlentities('Pending, click to confirm.')?></a>
+																<a href="my-laptops.php?pid=<?php echo htmlentities($result->id); ?>&lid=<?php echo htmlentities($result->lid);?>" onclick="return confirm('Do you really want to Confirm payment for this booking? This action will also deactivate your laptop.')"><?php echo htmlentities('Pending, click to confirm.')?></a>
 															<?php } else if ($result->PayStatus == 1){
 																echo htmlentities('Paid');
                               }
@@ -351,6 +372,7 @@ if (strlen($_SESSION['login']) == 0) {
                             
 
 														<td><?php
+                              #Booking Status is 0 by deafult, confirming/cancelling a booking changes status.
 															if ($result->Status == 0) { ?>
                                 <a href="my-laptops.php?aeid=<?php echo htmlentities($result->id); ?>" onclick="return confirm('Do you really want to Confirm this booking')"> Confirm</a> /
                                 <a href="my-laptops.php?eid=<?php echo htmlentities($result->id); ?>" onclick="return confirm('Do you really want to Cancel this Booking')"> Cancel</a>
@@ -364,6 +386,8 @@ if (strlen($_SESSION['login']) == 0) {
                             </td>
     
                             <td><?php
+                              #Return Status id 0 by default. Changes to 1 when a booking request is made, changes to 2 when laptop is borrowed
+                              #then changes to 3 when a laptop return request is made. Then finally changes to 4 when the laptop return is confirmed.
 															if ($result->ReturnStatus == 0) {
 																echo htmlentities('Not borrowed yet');
                               }else if($result->ReturnStatus == 1){
@@ -372,7 +396,7 @@ if (strlen($_SESSION['login']) == 0) {
                                 echo htmlentities('Laptop in Use.');
                               }else if ($result->ReturnStatus == 3) {?>
 
-                                <a href="my-laptops.php?rid=<?php echo htmlentities($result->id); ?>" onclick="return confirm('Do you really want to Confirm return of this laptop?')"><?php echo htmlentities('Pending, click to confirm return.')?></a>
+                                <a href="my-laptops.php?rid=<?php echo htmlentities($result->id);?>&ulid=<?php echo htmlentities($result->lid);?>" onclick="return confirm('Do you really want to Confirm return of this laptop? Your laptop will be visible for booking.')"><?php echo htmlentities('Pending, click to confirm return.')?></a>
 
 															<?php } else {
 																echo htmlentities('Returned');
