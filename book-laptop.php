@@ -196,12 +196,12 @@ if (isset($_POST['submit'])) {
                    <form method="post" name="book">
                         <div class="form-group">
                             <label for="">From Date:</label>
-                            <input type="date" class="form-control" name="fromdate" placeholder="From Date" id="fromdate" required>
+                            <input type="date" class="form-control" name="fromdate" placeholder="From Date" id="fromdate" min=<?php echo date('Y-m-d');?> required>
                         </div>
 
                         <div class="form-group">
                             <label for="">To Date:</label>
-                            <input type="date" class="form-control" name="todate" placeholder="To Date" id="todate" onchange="getprice()" required>
+                            <input type="date" class="form-control" name="todate" placeholder="To Date" id="todate" min=<?php echo date('Y-m-d', strtotime("+ 1 day"));?> onchange="getprice()" required>
                         </div>
 
 
@@ -217,7 +217,7 @@ if (isset($_POST['submit'])) {
 
                         <div class="form-group">
                             <label for="">Payment Method:</label>
-                            <select class="form-select" aria-label="Default select example" name="paymentmode">
+                            <select class="form-control" aria-label="Default select example" name="paymentmode">
                                 <option selected>Payment Mode</option>
                                 <option value="Mpesa on Delivery">Mpesa on Delivery</option>
                                 <option value="Cash on Delivery">Cash on Delivery</option>
