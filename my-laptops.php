@@ -252,7 +252,7 @@ if (strlen($_SESSION['login']) == 0) {
 
                                   <a href="activate.php?id=<?php echo htmlentities ($result->id);?>"onclick="return confirm('Do you really want to activate this laptop?Users will be able to book it.')" class="btn outline btn-xs active-btn"style="border-color:#2dcc70">Activate</a>
                                   <?php } else if ($result->Online==3) {?>
-                                    <a href="" class="btn outline btn-xs inactive-btn"style="border-color:#fa2837">Laptop is in use</a>
+                                    <a class="btn outline btn-xs inactive-btn"style="border-color:#fa2837">Laptop is in use</a>
                                   <?php }
                                   ?>
 
@@ -265,7 +265,11 @@ if (strlen($_SESSION['login']) == 0) {
 
                                 <div class="edit">
                                   <a href="editlaptop.php?id=<?php echo $result->id; ?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                  <?php if ($result->Online==1) { ?>
                                   <a href="my-laptops.php?del=<?php echo $result->id; ?>" onclick="return confirm('Do you want to delete');"><i class="fa fa-trash"></i></a>
+                                  <?php } else if ($result->Online==3) { ?>
+                                    <a href="my-laptops.php?id=<?php echo $result->id; ?>" onclick="return confirm('Ooops! You cant delete this laptop while it is in use.');"><i class="fa fa-trash"></i></a>
+                                  <?php }?>
                                 </div>
 
                                 <div class="clearfix"></div>
